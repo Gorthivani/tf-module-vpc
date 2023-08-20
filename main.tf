@@ -25,7 +25,7 @@ resource "aws_route" "igw" {
     gateway_id = aws_internet_gateway.igw.id
   }
 resource "aws_eip" "ngw" {
-  for_each = local.public_subnet_ids
+  count = local.public_subnet_ids
   domain="vpc"
 
 }
