@@ -15,3 +15,16 @@ resource "aws_internet_gateway" "igw" {
     Name = "main"
   }
 }
+resource "aws_route" "igw" {
+  for_each = var.subnets["public"]["route_table_ids"]
+
+    route_table_id            = each.value["id"]
+    destination_cidr_block    = "0.0.0.0/0"
+    //vpc_peering_connection_id = "pcx-45ff3dc1"
+    //depends_on                = [aws_route_table.testing]
+    gateway_id = aws_internet_gateway.igw.id
+  }
+
+output "subnet" {
+  value = module.subnets
+}
